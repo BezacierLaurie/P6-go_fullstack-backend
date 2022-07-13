@@ -17,8 +17,8 @@ const normalizePort = val => {
 };
 
 /* // Pour INDIQUER à l'application Express sur quel port elle va tourner
-app.set('port' , process.env.PORT || 3000); */
-
+app.set('port' , process.env.PORT || 3000);
+// Ou */
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -54,8 +54,8 @@ server.on('listening', () => {
 });
 
 /* // Pour ECOUTER le serveur (des requêtes envoyées)
-server.listen(process.env.PORT || 3000); */
-
+server.listen(process.env.PORT || 3000); 
+// Ou */
 // (écouteur d'évènements consignant le port ou le canal nommé sur lequel le serveur s'exécute dans la console)
 server.listen(port);
 
