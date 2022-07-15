@@ -10,16 +10,16 @@ const Thing = require('../models/Thing');
 // L'argument "/api/stuff" est l'URL visée par l'application ("endpoint" = route vers l'API) -> Elle est remplacée par seulement un '/' car le router remplace le chemin
 // REMPLACER 'use' par 'get' (pour RECUPERER seulement (CIBLER) les requêtes 'get') (idem avec 'post', 'put' et 'delete')
 router.get('/:id', (req, res, next) => { // ':id' = partie dynamique (de la route) (= req.params.id : paramètre de route dynamique)
-    Thing.findOne({ _id: req.params.id })
-        .then(thing => res.status(200).json(thing)) // Retour d'une promesse (=> : renvoie du 'thing' présent dans MongoDB (BdD))
+    Thing.findOne({ _id: req.params.id }) // 'Thing' (de mongoose)
+        .then(resultFindOne => res.status(200).json(resultFindOne)) // Retour d'une promesse (=> : renvoie du 'thing' présent dans MongoDB (BdD))
         .catch(error => res.status(404).json({ error })); // Error (objet non trouvé)
 });
 
 // Route 'GET' : Pour TROUVER / RECUPERER la liste complète des 'things' dans MongoDB (BdD)
 router.get('/', (req, res, next) => {
     // Pour TROUVER / RECUPERER la liste complète des 'Things' dans MongoDB (BdD)
-    Thing.find()
-        .then(things => res.status(200).json(things)) // Retour d'une promesse (=> : renvoie d'un tableau contenant tous les 'Things' présents dans MongoDB (BdD))
+    Thing.find() // 'Thing' (de mongoose)
+        .then(resultFind => res.status(200).json(resultFind)) // Retour d'une promesse (=> : renvoie d'un tableau contenant tous les 'Things' présents dans MongoDB (BdD))
         .catch(error => res.status(400).json({ error })); // Error
 });
 

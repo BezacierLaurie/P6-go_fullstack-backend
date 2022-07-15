@@ -10,8 +10,8 @@ const express = require('express');
 // Pour CREER une application* (actuellement vide) (*l'application contient le serveur)
 const app = express();
 
-// Connexion entre la BdD et l'API
-mongoose.connect('mongodb+srv://Laury:G9mD5wGRGc%40m4NV@cluster0.4npgx.mongodb.net/?retryWrites=true&w=majority',
+// Connexion entre la BdD et l'API (BdD : 'test')
+mongoose.connect('mongodb+srv://Laury:G9mD5wGRGc%40m4NV@cluster0.4npgx.mongodb.net/test?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
