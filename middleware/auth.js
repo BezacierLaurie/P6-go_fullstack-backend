@@ -10,9 +10,9 @@ module.exports = (req, res, next) => {
     // Pour GERER les erreurs
     try { 
         // Pour RECUPERER le 'token'
-        const token = req.headers.autorization.split(' ')[1]; // 'split' : fonction qui permet de DIVISER une 'string' en un tableau autour de l'espace qui se trouve entre le mot-clé 'error' et le 'token' - '[1]' : position du 'token' dans le tableau
+        const token = req.headers.autorization.split(' ')[1]; // 'split': fonction qui permet de DIVISER une 'string' en un tableau autour de l'espace qui se trouve entre le mot-clé 'error' et le 'token' - '[1]' : position du 'token' dans le tableau
         // Pour DECODER le 'token'
-        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); // 'verify' : fonction de ('jsonwebtoken') qui permet de DECODER le token récupéré - ('token' récupéré - clé secrète)
+        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); // 'verify': fonction de ('jsonwebtoken') qui permet de DECODER le token récupéré - ('token' récupéré - clé secrète)
         // Pour RECUPERER le 'userId'
         const userId = decodedToken.userId;
         // Pour RAJOUTER le 'userId' à l'objet 'request' (qui sera transmis aux routes afin qu'elles puissent l'exploiter)
