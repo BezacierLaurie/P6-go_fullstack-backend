@@ -1,13 +1,16 @@
 // Pour IMPORTER 'mongoose' (BdD 'MongoDB')
 const mongoose = require('mongoose');
 
-// Pour IMPORTER le router (EXPORTER par 'stuff.js')
+// Pour IMPORTER le routeur (EXPORTE par 'routes/stuff.js')
 const stuffRoutes = require('./routes/stuff');
+
+// Pour IMPORTER le routeur (EXPORTE par 'routes/user.js')
+const userRoutes = require('./routes/user');
 
 // Pour IMPORTER 'express' (Application 'Express')
 const express = require('express');
 
-// Pour CREER une application* (actuellement vide) (*l'application contient le serveur)
+// Pour CREER une application
 const app = express();
 
 // Connexion entre la BdD et l'API (BdD : 'test')
@@ -34,8 +37,11 @@ app.use((req, res, next) => {
     next();
 });
 
-// (représente les routes)
+// Pour ENREGISTRER les routes (présentes dans 'routes/stuff.js')
 app.use('/api/stuff', stuffRoutes);
+
+// Pour ENREGISTRER les routes (présentes dans 'routes/user.js')
+app.use('/api/auth', userRoutes); // 'auth' : racine de tout ce qui est lié à l'authentification
 
 // Pour EXPORTER l'application
 module.exports = app;
