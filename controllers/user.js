@@ -46,7 +46,7 @@ exports.login = (req, res, next) => { // 'login' : fonction qui permet de VERIFI
                                 token: jwt.sign( // 'sign' : fonction (de 'jsonwebtoken') qui permet 
                                     { userId: user._id }, // données que l'on souhaite encodées à l'intérieur du 'token' (appelées le 'payload')
                                     'RANDOM_TOKEN_SECRET', // clé secrète (pour l'encodage)
-                                    {expiresIn: '24h'} // 'expiresIn' : durée de validité du 'token' avant expiration
+                                    { expiresIn: '24h' } // 'expiresIn' : durée de validité du 'token' avant expiration
                                 )
                             });
                         }
