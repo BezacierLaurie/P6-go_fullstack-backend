@@ -11,9 +11,9 @@ const MIME_TYPES = {
 };
 
 // Pour CREER un objet de configuration (pour 'Multer')
-const storage = multer.diskStorage({ // 'diskStorage' : fonction (de 'Multer') qui permet d'ENREGISTRER sur le disque
-    destination: (req, file, callback) => { // 'destination' : fonction (de 'Multer') qui permet de lui signaler dans quel dossier enregistrer les fichiers
-        callback(null, 'images') // 'null' : Permet de SIGNALER qu'il n'y a pas eu d'erreur (à ce niveau-là) - ' ' : Nom du dossier
+const storage = multer.diskStorage({ // 'diskStorage' : fonction (de 'Multer') qui permet d'ENREGISTRER le fichier sur le disque
+    destination: (req, file, callback) => { // 'destination' : fonction (de 'Multer') qui permet de lui signaler dans quel dossier enregistrer le fichier
+        callback(null, 'images'); // 'null' : Permet de SIGNALER qu'il n'y a pas eu d'erreur (à ce niveau-là) - ' ' : Nom du dossier (dans lequel sera enregistré le fichier)
     },
     // Pour CREER le nom du fichier
     filename: (req, file, callback) => { // 'filename' : fonction (de 'Multer') qui permet de CREER un nouveau nom au fichier (différent de celui d'origine)
@@ -22,9 +22,9 @@ const storage = multer.diskStorage({ // 'diskStorage' : fonction (de 'Multer') q
         // Pour CREER l'extension du fichier (qui correspond au 'MIME_TYPES' du fichier envoyé par le front-end)
         const extension = MIME_TYPES[file.mimetype];
         // Pour APPELLER la callback
-        callback(null, name + Date.now() + '.' + extension) // 'name + Date.now() + '.' + extension' : Création du 'filename' (Détails du résultat final : la fonction 'filename' indique à 'Multer' d'utiliser le nom d'origine, de remplacer les espaces par des underscores ('name') et d'ajouter un timestamp ('Date.now()') comme nouveau nom de fichier. Elle utilise ensuite la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée (''.'' + 'extension').)
+        callback(null, name + Date.now() + '.' + extension); // 'name + Date.now() + '.' + extension' : Création du 'filename' (Détails du résultat final : la fonction 'filename' indique à 'Multer' d'utiliser le nom d'origine, de remplacer les espaces par des underscores ('name') et d'ajouter un timestamp ('Date.now()') comme nouveau nom de fichier. Elle utilise ensuite la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée (''.'' + 'extension').)
     }
 });
 
 // Pour EXPORTER 'multer' (Middleware)
-module.exports = multer({ storage }).single('image'); // 'single' : fonction (de 'Multer') qui permet d'INDIQUER qu'il s'agit d'un fichier unique
+module.exports = multer({ storage: storage}).single('image'); // 'single' : fonction (de 'Multer') qui CAPTURE les fichiers d'un certain type (passé en argument), et les ENREGISTRE au système de fichiers du serveur à l'aide du storage configuré (cela permet d'INDIQUER qu'il s'agit d'un fichier unique (par ex : ici 'image' uniquement))

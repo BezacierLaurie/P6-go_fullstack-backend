@@ -1,14 +1,14 @@
 // Pour IMPORTER 'express' (Application 'Express')
 const express = require('express');
 
+// Pour CREER un routeur 
+const router = express.Router();
+
 // Pour IMPORTER 'auth' (Middleware 'authentification')
 const auth = require('../middleware/auth');
 
 // Pour IMPORTER 'multer' (Middleware 'enregistreur de fichiers')
 const multer = require('../middleware/multer-config');
-
-// Pour CREER un routeur 
-const router = express.Router();
 
 // Pour IMPORTER 'stuff' (Controller 'stuff' : gestion de la route) 
 const stuffController = require('../controllers/stuff');
@@ -30,7 +30,7 @@ router.post('/', auth, multer, stuffController.createThing);
 
 // Route 'PUT' : Pour MODIFIER un 'thing' dans MongoDB (BdD)
 // Fonction ('modifyThing') IMPORTEE et APPLIQUEE à la route 
-router.put('/:id', auth, multer, stuffController.modifyThing);
+router.put('/:id', auth, stuffController.modifyThing);
 
 // Route 'DELETE' : Pour supprimer un 'thing' dans MongoDB (BdD)
 // Fonction ('deleteThing') IMPORTEE et APPLIQUEE à la route 

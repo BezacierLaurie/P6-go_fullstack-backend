@@ -40,12 +40,13 @@ exports.createThing = (req, res, next) => {
         ...thingObject,
         userId: req.auth.userId, // ('userId extrait de l'objet 'requête' grâce au middleware 'auth')
         // Pour GENERER l'URL de l'image (par nous-même, car 'Multer' ne délivre que le nom du fichier, en utilisant des propriétés de l'objet 'requête' : protocole - nom d'hôte - nom du dossier - nom du fichier (délivré par 'Multer'))
-        imageURL: "${req.protocole}://${req.get('host')}/images/${req.file.filename}"
+        imageURL: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     // Pour ENREGISTRER les données dans la BdD ('MongoDB')
     thing.save()
         .then(() => { res.status(201).json({ message: 'Objet enregistré !' }) }) // Retour de la promesse
-        .catch(error => { res.status(400).json({ error }) }) // Erreur
+        .catch(error => { res.status(400).json({ error }) }) // Erreur ('Mauvaise' requête)
+    next();
 };
 
 // Pour GERER la route 'PUT' : On EXPORTE la fonction 'modifyThing' pour la modification d'un objet ('Thing')

@@ -18,14 +18,12 @@ exports.signup = (req, res, next) => { // 'signup' : fonction qui permet de CRYP
                 email: req.body.email, // 'req.body.email' ('data'): email présent dans le corps de la requête
                 password: hash // 'hach' CREE par 'bcrypt' (celui créé plus haut)
             });
-            // Pour ENREGISTRER ce nouvel 'user' dans MongoDB (BdD)
+            // Pour ENREGISTRER le nouvel 'user' dans MongoDB (BdD)
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error })); // Erreur
         })
         .catch(error => res.status(500).json({ error })); // Erreur 'server'
-
-
 };
 
 // Pour CONNECTER des utilisateurs existants
@@ -36,7 +34,7 @@ exports.login = (req, res, next) => { // 'login' : fonction qui permet de VERIFI
             if (user === null) { // Si 'user' pas trouvé
                 res.status(401).json({ message: 'Paire identifiant / mot de passe incorrecte' }); // Ce message permet de préserver la confidentialité des 'users' concernant leur information personnelle: 'inscrit' ou 'non-inscrit'
             } else { // Sinon
-                bcrypt.compare(req.body.password) // 'compare' : fonction (de bcrypt) qui permet de VERIFIER si le MdP entré par le 'user' est correct, en le comparant à celui stocké dans la BdD - (MdP entré par le 'user' - MdP stocké dans la BdD)
+                bcrypt.compare(req.body.password, user.password) // 'compare' : fonction (de bcrypt) qui permet de VERIFIER si le MdP entré par le 'user' est correct, en le comparant à celui stocké dans la BdD - (MdP entré par le 'user' - MdP stocké dans la BdD)
                     .then(valid => {
                         if (!valid) { // Si MdP incorrect
                             res.status(401).json({ message: 'Paire identifiant / mot de passe incorrecte' }); // Ce message permet de préserver la confidentialité des 'users' concernant leur information personnelle: 'inscrit' ou 'non-inscrit'
@@ -54,7 +52,5 @@ exports.login = (req, res, next) => { // 'login' : fonction qui permet de VERIFI
                     .catch(error => res.status(500).json({ error })); // Erreur 'server': est une erreur d'exécution de requête dans la BdD (différent de l'erreur 404 : 'champ pas trouvé dans la BdD')
             }
         })
-
-
         .catch(error => res.status(500).json({ error })); // Erreur 'server'
 };
