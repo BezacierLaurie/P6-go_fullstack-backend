@@ -39,13 +39,13 @@ exports.createThing = (req, res, next) => {
     // Pour SUPPRIMER (dans l'objet) les champs '_id' (car l'id de l'objet va être généré automatiquement par la BdD (MongoDB)) et '_userId' (qui correspond à la personne qui a créé l'objet) (on utilise désormais le 'userId' qui vient du token d'authentification (pour être sur qu'il soit valide)) (car il ne faut JAMAIS faire confiance aux clients)
     delete thingObject._id;
     delete thingObject.user_id;
-    // Pour CREER l'objet (avec ce qui a été parsé (moins les 2 champs supprimés))
+    // Pour CREER l'objet (avec ce qui a été passé (moins les 2 champs supprimés))
     const thing = new Thing({
         ...thingObject, // Déconstruction de l'objet (title, description, imageUrl, ...)
         userId: req.auth.userId, // 'userId' = extrait de l'objet 'requête' grâce au middleware 'auth'
         // Ou 'res.locals.auth.userId'à la place de "req.auth.userId"
         // Pour GENERER l'URL de l'image (par nous-même, car 'Multer' ne délivre que le nom du fichier, en utilisant des propriétés de l'objet 'requête' : protocole - nom d'hôte - nom du dossier - nom du fichier (délivré par 'Multer'))
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
     });
     // Pour ENREGISTRER les données dans la BdD ('MongoDB')
     thing.save()
