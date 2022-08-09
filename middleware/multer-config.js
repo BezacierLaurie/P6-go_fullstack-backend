@@ -3,6 +3,8 @@
 // Pour IMPORTER 'multer' (Gestionnaire de fichiers 'Multer')
 const multer = require('multer');
 
+// Configuration de 'Multer' (partie que l'on construit : 'morceaux' de 'Multer)
+
 // Création de la constante dictionnaire de type 'MIME' pour résoudre l'extension de fichier appropriée (objet qui permet de traduire les formats)
 const MIME_TYPES = {
     'image/jpg': 'jpg',
@@ -25,6 +27,8 @@ const storage = multer.diskStorage({ // 'diskStorage' : fonction (de 'Multer') q
         callback(null, name + Date.now() + '.' + extension); // 'name + Date.now() + '.' + extension' : Création du 'filename' (Détails du résultat final : la fonction 'filename' indique à 'Multer' d'utiliser le nom d'origine, de remplacer les espaces par des underscores ('name') et d'ajouter un timestamp ('Date.now()') comme nouveau nom de fichier. Elle utilise ensuite la constante dictionnaire de type MIME pour résoudre l'extension de fichier appropriée (''.'' + 'extension').)
     }
 });
+
+// 'Réellement' 'Multer' (avec la configuration créée au-dessus)
 
 // Pour EXPORTER 'multer' (Middleware)
 module.exports = multer({ storage: storage}).single('image'); // 'single' : fonction (de 'Multer') qui CAPTURE les fichiers d'un certain type (passé en argument), et les ENREGISTRE au système de fichiers du serveur à l'aide du storage configuré (cela permet d'INDIQUER qu'il s'agit d'un fichier unique (par ex : ici 'image' uniquement))

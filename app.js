@@ -10,6 +10,12 @@ const userRoutes = require('./routes/user');
 // Pour IMPORTER 'express' (Application 'Express')
 const express = require('express');
 
+// Code autre élève
+//const bodyParser = require('body-parser'); // 'body-parser' est présent dans le fichier 'TS'
+
+// Pour ACCEDER au 'path' du server
+const path = require('path');
+
 // Pour CREER une application
 const app = express();
 
@@ -42,6 +48,12 @@ app.use('/api/stuff', stuffRoutes);
 
 // Pour ENREGISTRER les routes (présentes dans 'routes/user.js')
 app.use('/api/auth', userRoutes); // 'auth' : racine de tout ce qui est lié à l'authentification
+
+// Code autre élève
+//app.use(bodyParser.json());
+
+// Pour TRAITER les requêtes qui vont vers la route '/image' en rendant le répertoire 'images' statique (cela permet aux images de s'afficher sur le site)
+app.use('/images',express.static(path.join(__dirname,'images'))); // Cela indique à 'Express' qu'il faut gérer la ressource 'images' de manière statique (un sous-répertoire du répertoire de base, '__dirname') à chaque fois qu'elle reçoit une requête vers la route '/images'
 
 // Pour EXPORTER l'application
 module.exports = app;

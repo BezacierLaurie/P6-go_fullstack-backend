@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
         // Pour RAJOUTER le 'userId' à l'objet 'request' (qui sera transmis aux routes afin qu'elles puissent l'exploiter)
         req.auth = {
             userId: userId
-        }
+        };
         next();
         /* // (identique (en mieux) que ce qu'il y a au dessus, car l'utilisateur créé la 'req' tandis que la 'res' est créée par le serveur (et donc c'est plus logique de modif la res))
         res.locals.auth = userId; // 'locals' = fonction de 'res' qui permet de STOCKER des valeurs le temps de la requête */
