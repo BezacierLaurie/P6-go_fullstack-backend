@@ -29,7 +29,7 @@ mongoose.connect('mongodb+srv://Laury:G9mD5wGRGc%40m4NV@cluster0.4npgx.mongodb.n
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // Pour INTERCEPTER toutes les requêtes qui contiennent du json et METTRE à disposition ce contenu (ACCEDER au corps de la requête) sur l'objet 'requête' (dans req.body)
-app.use(express.json()); // Info : cas particulier du body : complète la fonctionnalité du 'body-parser'
+app.use(express.json()); // Info : Complète la fonctionnalité du 'body-parser' (cas particulier du body)
 
 // Pour IMPLEMENTER "CORS" (appels sécurisés vers l'application) (pas d'URL précisée pour permettre une application à toutes les routes)
 app.use((req, res, next) => {
