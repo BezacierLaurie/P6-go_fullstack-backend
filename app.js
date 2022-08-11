@@ -10,8 +10,8 @@ const userRoutes = require('./routes/user');
 // Pour IMPORTER 'express' (Application 'Express')
 const express = require('express');
 
-// Code autre élève
-//const bodyParser = require('body-parser'); // 'body-parser' est présent dans le fichier 'TS'
+// Pas besoin par rapport à la version (d'Express) utilisée (car désormais inclu de base)
+//const bodyParser = require('body-parser');
 
 // Pour ACCEDER au 'path' du server
 const path = require('path');
@@ -29,8 +29,7 @@ mongoose.connect('mongodb+srv://Laury:G9mD5wGRGc%40m4NV@cluster0.4npgx.mongodb.n
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // Pour INTERCEPTER toutes les requêtes qui contiennent du json et METTRE à disposition ce contenu (ACCEDER au corps de la requête) sur l'objet 'requête' (dans req.body)
-// (identique à 'body-parser')
-app.use(express.json());
+app.use(express.json()); // Info : cas particulier du body : complète la fonctionnalité du 'body-parser'
 
 // Pour IMPLEMENTER "CORS" (appels sécurisés vers l'application) (pas d'URL précisée pour permettre une application à toutes les routes)
 app.use((req, res, next) => {
@@ -49,7 +48,7 @@ app.use('/api/stuff', stuffRoutes);
 // Pour ENREGISTRER les routes (présentes dans 'routes/user.js')
 app.use('/api/auth', userRoutes); // 'auth' : racine de tout ce qui est lié à l'authentification
 
-// Code autre élève
+// Si utilisation (plus haut) de 'bodyParser'
 //app.use(bodyParser.json());
 
 // Pour TRAITER les requêtes qui vont vers la route '/image' en rendant le répertoire 'images' statique (cela permet aux images de s'afficher sur le site)

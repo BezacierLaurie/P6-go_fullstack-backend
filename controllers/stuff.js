@@ -34,7 +34,7 @@ exports.createThing = (req, res, next) => {
         .catch(error => res.status(400).json({ error })); // Error */
 
     // Nouveau code : Modification de 'createThing' car la route et de la gestion de la route vont être modifiées (car en ajoutant 'Multer' le format de la requête change)
-    // Pour PARSER l'objet 'requête' (l'objet qui est envoyé dans la requête va maintenant être envoyé sous forme JSON (encore) mais en chaîne de caractères)
+    // Pour PARSER l'objet 'requête' (comme l'objet (= valeur de 'clé / valeur') est reçu sous la forme d'une string, car envoyée en 'form-data', elle est PARSEE en objet json pour pouvoir être utilisée)
     const thingObject = JSON.parse(req.body.thing);
     // Pour SUPPRIMER (dans l'objet) les champs '_id' (car l'id de l'objet va être généré automatiquement par la BdD (MongoDB)) et '_userId' (qui correspond à la personne qui a créé l'objet) (on utilise désormais le 'userId' qui vient du token d'authentification (pour être sur qu'il soit valide)) (car il ne faut JAMAIS faire confiance aux clients)
     delete thingObject._id;
@@ -67,7 +67,6 @@ exports.modifyThing = (req, res, next) => {
         // Cas 2 : L'utilisateur n'a pas transmis de fichier. Pour RECUPERER l'objet : il faut RECUPERER simplement l'objet directement dans le corps de la requête
         : { ...req.body };
 
-    // Partie absente dans 'Code autre élève' (début)
     // Pour SUPPRIMER le 'userId' venant de la requête (pour EVITER qu'un personne crée un objet à son nom, puis le modifie pour le réassigner à une autre personne) (mesure de sécurité)
     delete thingObject._userId;
     // Pour VERIFIER les droits de l'utilisateur. Procédé : On RECUPERE l'objet 'userId' dans la BdD ('MongoDB') (pour VERIFIER si c'est bien l'utilisateur à qui appartient cet objet qui cherche à le MODIFIER) (mesure de sécurité)
@@ -79,7 +78,6 @@ exports.modifyThing = (req, res, next) => {
             }
             // Soit 'Mise à jour de l'enregistrement'
             else {
-                // Partie absente dans 'Code autre élève' (fin)
                 Thing.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id }) // = (Filtre qui permet de dire quel est l'{enregistrement à mettre à jour} et avec quel {objet}) => objet de comparaison : (celui que l'on souhaite modifier (parsé)) : {'id' envoyé dans les paramètres de requête}, nouvelle version de l'objet : {le 'thing' qui est dans le corps de la requête, l'id (pris dans la route) correspondant à celui des paramètres (important : car celui présent dans le corps de la requête ne sera pas forcément le bon)}
                  
                 .then(() => res.status(200).json({ message: 'Objet modifié !' })) // Retour d'une promesse (=> : renvoie d'une réponse positive)
