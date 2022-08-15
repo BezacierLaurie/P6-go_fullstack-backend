@@ -48,7 +48,8 @@ app.use('/api/stuff', stuffRoutes);
 // Pour ENREGISTRER les routes (présentes dans 'routes/user.js')
 app.use('/api/auth', userRoutes); // 'auth' : racine de tout ce qui est lié à l'authentification
 
-// Si utilisation (plus haut) de 'bodyParser'
+// Si (plus haut) utilisation de 'bodyParser'
+// Pour UTILISER 'bodyParser'
 //app.use(bodyParser.json());
 
 // Pour TRAITER les requêtes qui vont vers la route '/image' en rendant le répertoire 'images' statique (cela permet aux images de s'afficher sur le site)
