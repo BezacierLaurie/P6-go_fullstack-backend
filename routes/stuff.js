@@ -10,13 +10,14 @@ const auth = require('../middleware/auth');
 // Pour IMPORTER 'multer' (Middleware 'enregistreur de fichiers')
 const multer = require('../middleware/multer-config');
 
-// Pour IMPORTER 'stuff' (Controller 'stuff' : gestion de la route) 
-const stuffController = require('../controllers/stuff');
+// Pour IMPORTER 'stuff' (Controller 'stuff') 
+const stuffController = require('../controllers/stuff'); // 'stuffController' : Permet la gestion de la route
+
+// Infos (générales) :
+// - L'argument '/api/stuff' est le 'endpoint' visé par l'application ('endpoint' = URL / URI (route vers l'API) -> Il est remplacé par seulement un '/' car le router remplace le début du chemin)
+// - REMPLACER 'use' par 'un verbe HTTP' (pour CIBLER les différents types de requêtes)
 
 // Route 'GET' : Pour RECUPERER un 'thing' individuel dans MongoDB (BdD)
-// L'argument '/api/stuff' est l'URL visée par l'application ('endpoint' = route vers l'API) -> Elle est remplacée par seulement un '/' car le router remplace le chemin
-// REMPLACER 'use' par 'get' (pour RECUPERER seulement (CIBLER) les requêtes 'get') (idem avec 'post', 'put' et 'delete')
-// Fonction 'stuffController' : permet la gestion de la route
 // Fonction ('getOneThing') : méthode du controller, qui est IMPORTEE et APPLIQUEE à la route 
 router.get('/:id', auth, stuffController.getOneThing);
 

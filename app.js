@@ -10,17 +10,20 @@ const userRoutes = require('./routes/user');
 // Pour IMPORTER 'express' (Application 'Express')
 const express = require('express');
 
+// Pour IMPORTER 'dotenv' (Sécurité BdD)
+const dotenv = require('dotenv').config()
+
 // Pas besoin par rapport à la version (d'Express) utilisée (car désormais inclu de base)
 //const bodyParser = require('body-parser');
 
-// Pour ACCEDER au 'path' du server
+// Pour ACCEDER au 'path' (chemin) du server
 const path = require('path');
 
 // Pour CREER une application
 const app = express();
 
 // Connexion entre la BdD et l'API (BdD : 'test')
-mongoose.connect('mongodb+srv://Laury:G9mD5wGRGc%40m4NV@cluster0.4npgx.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv:' + process.env.identifiant,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -53,7 +56,7 @@ app.use('/api/auth', userRoutes); // 'auth' : racine de tout ce qui est lié à 
 //app.use(bodyParser.json());
 
 // Pour TRAITER les requêtes qui vont vers la route '/image' en rendant le répertoire 'images' statique (cela permet aux images de s'afficher sur le site)
-app.use('/images',express.static(path.join(__dirname,'images'))); // Cela indique à 'Express' qu'il faut gérer la ressource 'images' de manière statique (un sous-répertoire du répertoire de base, '__dirname') à chaque fois qu'elle reçoit une requête vers la route '/images'
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Cela indique à 'Express' qu'il faut gérer la ressource 'images' de manière statique (un sous-répertoire du répertoire de base, '__dirname') à chaque fois qu'elle reçoit une requête vers la route '/images'
 
 // Pour EXPORTER l'application
 module.exports = app;
