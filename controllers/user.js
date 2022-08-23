@@ -14,7 +14,7 @@ exports.signup = (req, res, next) => { // 'signup' : fonction qui permet de CRYP
         // Pour RECUPERER le 'hash' de MdP
         .then(hash => { // 'hach' CREE par 'bcrypt'
             // Pour CREER un nouvel 'user'
-            const user = new User({ // 'User' : modèle 'mongoose'
+            const user = new User({ // Création d'une instance du modèle 'User' (modèle de 'mongoose')
                 email: req.body.email, // 'req.body.email' ('data'): email présent dans le corps de la requête
                 password: hash // 'hach' CREE par 'bcrypt' (celui créé plus haut)
             });
@@ -43,7 +43,7 @@ exports.login = (req, res, next) => { // 'login' : fonction qui permet de VERIFI
                                 userId: user._id,
                                 token: jwt.sign( // 'sign' : fonction (de 'jsonwebtoken') qui permet 
                                     { userId: user._id }, // données que l'on souhaite encodées à l'intérieur du 'token' (appelées le 'payload')
-                                    'RANDOM_TOKEN_SECRET', // clé secrète (pour l'encodage)
+                                    process.env.secretKey, // clé secrète (pour l'encodage)
                                     { expiresIn: '24h' } // 'expiresIn' : durée de validité du 'token' avant expiration
                                 )
                             });

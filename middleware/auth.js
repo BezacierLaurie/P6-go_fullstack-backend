@@ -1,10 +1,11 @@
 // Pour IMPORTER 'jsonwebtoken' (plug-in qui permet de CREER des 'tokens' et de les VERIFIER)
 const jwt = require('jsonwebtoken');
 
-// Pour CREER un 'middleware' (logiciel intermédiaire) qui:
+// Création d'un 'middleware' (logiciel intermédiaire) qui:
 // - permet d'extraire les informations contenues dans le 'token' (et de vérifier que le 'token' est valide)
 // - vérifie que l'utilisateur est connecté 
 // - transmet les infos de connexion aux méthodes qui GERENT les requêtes (autres 'middlewares' ou gestionnaires de routes)
+
 // Pour EXPORTER une fonction (qui sera le middleware)
 module.exports = (req, res, next) => {
     // Pour GERER les erreurs

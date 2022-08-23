@@ -1,7 +1,7 @@
 // Pour IMPORTER 'mongoose' (BdD 'MongoDB')
 const mongoose = require('mongoose');
 
-// Schéma (de données) de l'objet 'thingSchema'
+// Schéma (de données) de l'objet 'thingSchema' (de 'Mongoose')
 const thingSchema = mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -10,5 +10,5 @@ const thingSchema = mongoose.Schema({
     userId: { type: String, required: true },
 });
 
-// Pour EXPORTER le schéma ('thingSchema') sous forme de modèle 'terminé' (nom du modèle + schéma de l'objet)
-module.exports = mongoose.model('Thing', thingSchema); // 'model' = fonction de 'mongoose'
+// Pour EXPORTER le schéma ('thingSchema') sous forme de modèle 'terminé' 
+module.exports = mongoose.model('Thing', thingSchema); // 'model' = fonction de 'mongoose' - ("nom du modèle" + schéma de l'objet)

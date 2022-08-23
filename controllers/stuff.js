@@ -6,7 +6,7 @@ const fs = require('fs');
 
 // Pour GERER la route 'GET' : On EXPORTE la fonction 'getOneThing' pour la récupération d'un objet ('Thing')
 exports.getOneThing = (req, res, next) => { 
-    Thing.findOne({ _id: req.params.id }) // 'Thing' (de mongoose) - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
+    Thing.findOne({ _id: req.params.id }) // 'Thing' (de 'models') - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
         .then(resultFindOne => res.status(200).json(resultFindOne)) // Retour d'une promesse (=> : renvoie du 'thing' présent dans MongoDB (BdD))
         .catch(error => res.status(404).json({ error })); // Error (objet non trouvé)
 };
@@ -14,7 +14,7 @@ exports.getOneThing = (req, res, next) => {
 // Pour GERER la route 'GET' : On EXPORTE la fonction 'getAllThings' pour la récupération de tous les objets ('Things')
 exports.getAllThings = (req, res, next) => {
     // Pour TROUVER / RECUPERER la liste complète des 'Things' dans MongoDB (BdD)
-    Thing.find() // 'Thing' (de mongoose)
+    Thing.find() // 'Thing' (de 'models')
         .then(resultFindAll => res.status(200).json(resultFindAll)) // Retour d'une promesse (=> : renvoie d'un tableau contenant tous les 'Things' présents dans MongoDB (BdD))
         .catch(error => res.status(400).json({ error })); // Error
 };
@@ -40,15 +40,15 @@ exports.createThing = (req, res, next) => {
     delete thingObject._id;
     delete thingObject.user_id;
     // Pour CREER l'objet (avec ce qui a été passé (moins les 2 champs supprimés))
-    const thing = new Thing({
+    const thing = new Thing({ // Création d'une instance du modèle 'Thing' (modèle de 'mongoose')
         ...thingObject, // Déconstruction de l'objet (title, description, imageUrl, ...)
         userId: req.auth.userId, // 'userId' = extrait de l'objet 'requête' grâce au middleware 'auth'
         // Ou 'res.locals.auth.userId'à la place de "req.auth.userId"
         // Pour GENERER l'URL de l'image (par nous-même, car 'Multer' ne délivre que le nom du fichier, en utilisant des propriétés de l'objet 'requête' : protocole - nom d'hôte - nom du dossier - nom du fichier (délivré par 'Multer'))
         imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
     });
-    // Pour ENREGISTRER les données dans la BdD ('MongoDB')
-    thing.save()
+    // Pour ENREGISTRER le nouvel objet 'thing' dans la BdD ('MongoDB')
+    thing.save() 
         .then(() => { res.status(201).json({ message: 'Objet enregistré !' }) }) // Retour de la promesse
         .catch(error => { res.status(400).json({ error }) }) // Erreur ('Mauvaise' requête)
 };
@@ -70,7 +70,7 @@ exports.modifyThing = (req, res, next) => {
     // Pour SUPPRIMER le 'userId' venant de la requête (pour EVITER qu'un personne crée un objet à son nom, puis le modifie pour le réassigner à une autre personne) (mesure de sécurité)
     delete thingObject._userId;
     // Pour VERIFIER les droits de l'utilisateur. Procédé : On RECUPERE l'objet 'userId' dans la BdD ('MongoDB') (pour VERIFIER si c'est bien l'utilisateur à qui appartient cet objet qui cherche à le MODIFIER) (mesure de sécurité)
-    Thing.findOne({ _id: req.params.id }) // 'Thing' (de mongoose) - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
+    Thing.findOne({ _id: req.params.id }) // 'Thing' (de 'models') - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
         .then((thing) => {
             // Soit 'Non-autorisé' (car erreur d'authentification utilisateur)
             if (thing.userId != req.auth.userId) {
@@ -89,7 +89,7 @@ exports.modifyThing = (req, res, next) => {
 // Pour GERER la route 'DELETE' : On EXPORTE la fonction 'deleteThing' pour la suppression d'un objet ('Thing')
 exports.deleteThing = (req, res, next) => {
     // Pour VERIFIER les droits de l'utilisateur. Procédé : On RECUPERE l'objet 'userId' dans la BdD ('MongoDB') (pour VERIFIER si c'est bien l'utilisateur à qui appartient cet objet qui cherche à le SUPPRIMER) (mesure de sécurité)
-    Thing.findOne({ _id: req.params.id }) // 'Thing' (de mongoose) - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
+    Thing.findOne({ _id: req.params.id }) // 'Thing' (de 'models') - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
         .then(thing => {
             // Soit 'Non-autorisé' (car erreur d'authentification utilisateur)
             if (thing.userId != req.auth.userId) {
