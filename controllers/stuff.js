@@ -4,22 +4,22 @@ const Thing = require('../models/Thing');
 // Pour IMPORTER 'fs' ('fs' : 'file system' = 'système de fichiers' - c'est un des packages de 'Node' - il permet de supprimer un fichier du système de fichiers)
 const fs = require('fs');
 
-// Pour GERER la route 'GET' : On EXPORTE la fonction 'getOneThing' pour la récupération d'un objet ('Thing')
+// Pour GERER la route 'GET' : On EXPORTE la fonction 'getOneThing' pour la récupération d'un objet ('thing'), particulier, présent dans MongoDB (BdD)
 exports.getOneThing = (req, res, next) => { 
     Thing.findOne({ _id: req.params.id }) // 'Thing' (de 'models') - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
-        .then(resultFindOne => res.status(200).json(resultFindOne)) // Retour d'une promesse (=> : renvoie du 'thing' présent dans MongoDB (BdD))
+        .then(resultFindOne => res.status(200).json(resultFindOne)) // Retour d'une promesse (=> 'resultFindOne' : renvoie du 'thing' présent dans MongoDB (BdD))
         .catch(error => res.status(404).json({ error })); // Error (objet non trouvé)
 };
 
-// Pour GERER la route 'GET' : On EXPORTE la fonction 'getAllThings' pour la récupération de tous les objets ('Things')
+// Pour GERER la route 'GET' : On EXPORTE la fonction 'getAllThings' pour la récupération de tous les objets ('things') présents dans MongoDB (BdD)
 exports.getAllThings = (req, res, next) => {
     // Pour TROUVER / RECUPERER la liste complète des 'Things' dans MongoDB (BdD)
     Thing.find() // 'Thing' (de 'models')
-        .then(resultFindAll => res.status(200).json(resultFindAll)) // Retour d'une promesse (=> : renvoie d'un tableau contenant tous les 'Things' présents dans MongoDB (BdD))
+        .then(resultFindAll => res.status(200).json(resultFindAll)) // Retour d'une promesse (=> 'resultFindAll' : renvoie d'un tableau contenant tous les 'Things' présents dans MongoDB (BdD))
         .catch(error => res.status(400).json({ error })); // Error
 };
 
-// Pour GERER la route 'POST' : On EXPORTE la fonction 'createThing' pour la création d'un objet ('Thing')
+// Pour GERER la route 'POST' : On EXPORTE la fonction 'createThing' pour la création d'un objet ('thing') dans MongoDB (BdD)
 exports.createThing = (req, res, next) => {
     // Ancien code
     /* // Pour SUPPRIMER le champs '_id' (car 'faux id' envoyé par le front-end : pas le bon, du fait d'être généré automatiquement par MongoDB (BdD))
@@ -53,7 +53,7 @@ exports.createThing = (req, res, next) => {
         .catch(error => { res.status(400).json({ error }) }) // Erreur ('Mauvaise' requête)
 };
 
-// Pour GERER la route 'PUT' : On EXPORTE la fonction 'modifyThing' pour la modification d'un objet ('Thing')
+// Pour GERER la route 'PUT' : On EXPORTE la fonction 'modifyThing' pour la modification d'un objet ('thing') dans MongoDB (BdD)
 exports.modifyThing = (req, res, next) => { 
     // 2 cas possibles : l'utilisateur peut transmettre un fichier ou non. Suivant le cas, l'objet sera récupéré d'une manière différente
     // Astuce : Pour SAVOIR si la requête a été faite avec un fichier, il faut regarder s'il y a un champ 'file' dans l'objet 'requête'
@@ -86,7 +86,7 @@ exports.modifyThing = (req, res, next) => {
         })
 };
 
-// Pour GERER la route 'DELETE' : On EXPORTE la fonction 'deleteThing' pour la suppression d'un objet ('Thing')
+// Pour GERER la route 'DELETE' : On EXPORTE la fonction 'deleteThing' pour la suppression d'un objet ('thing') dans MongoDB (BdD)
 exports.deleteThing = (req, res, next) => {
     // Pour VERIFIER les droits de l'utilisateur. Procédé : On RECUPERE l'objet 'userId' dans la BdD ('MongoDB') (pour VERIFIER si c'est bien l'utilisateur à qui appartient cet objet qui cherche à le SUPPRIMER) (mesure de sécurité)
     Thing.findOne({ _id: req.params.id }) // 'Thing' (de 'models') - ':id' = partie dynamique (de la route) (= 'req.params.id' : paramètre de route dynamique)
